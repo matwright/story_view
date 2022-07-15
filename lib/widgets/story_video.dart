@@ -149,7 +149,11 @@ class StoryVideoState extends State<StoryVideo> {
 
   @override
   void dispose() {
-    playerController?.dispose();
+    ///if a custom controller was provided it must be disposed externally
+    ///only player controllers initiated within this object shall be auto disposed
+    if (widget.playerController != null) {
+      playerController?.dispose();
+    }
     _streamSubscription?.cancel();
     super.dispose();
   }
