@@ -87,33 +87,27 @@ class StoryVideoState extends State<StoryVideo> {
 
     widget.storyController!.pause();
 
-    widget.videoLoader.loadVideo(() {
-      if (widget.videoLoader.state == LoadState.success) {
-        this.playerController = widget.videoLoader.videoFile != null
-            ? VideoPlayerController.file(widget.videoLoader.videoFile!)
-            : VideoPlayerController.network(widget.videoLoader.url,
-                formatHint: VideoFormat.hls,
-                videoPlayerOptions: VideoPlayerOptions(
-                    allowBackgroundPlayback: false, mixWithOthers: false));
-        playerController!.initialize().then((v) {
-          setState(() {});
-          widget.storyController!.play();
-        });
-
-        if (widget.storyController != null) {
-          _streamSubscription =
-              widget.storyController!.playbackNotifier.listen((playbackState) {
-            if (playbackState == PlaybackState.pause) {
-              playerController!.pause();
-            } else {
-              playerController!.play();
-            }
-          });
-        }
-      } else {
-        setState(() {});
-      }
+    this.playerController = widget.videoLoader.videoFile != null
+        ? VideoPlayerController.file(widget.videoLoader.videoFile!)
+        : VideoPlayerController.network(widget.videoLoader.url,
+            formatHint: VideoFormat.hls,
+            videoPlayerOptions: VideoPlayerOptions(
+                allowBackgroundPlayback: false, mixWithOthers: false));
+    playerController!.initialize().then((v) {
+      setState(() {});
+      widget.storyController!.play();
     });
+
+    if (widget.storyController != null) {
+      _streamSubscription =
+          widget.storyController!.playbackNotifier.listen((playbackState) {
+        if (playbackState == PlaybackState.pause) {
+          playerController!.pause();
+        } else {
+          playerController!.play();
+        }
+      });
+    }
   }
 
   Widget getContentView() {
