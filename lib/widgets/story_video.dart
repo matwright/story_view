@@ -87,14 +87,15 @@ class StoryVideoState extends State<StoryVideo> {
 
     widget.storyController!.pause();
 
-    this.playerController = widget.videoLoader.videoFile != null
-        ? VideoPlayerController.file(widget.videoLoader.videoFile!)
-        : VideoPlayerController.network(widget.videoLoader.url,
-            formatHint: VideoFormat.hls,
-            videoPlayerOptions: VideoPlayerOptions(
-                allowBackgroundPlayback: false, mixWithOthers: false));
+    this.playerController = VideoPlayerController.network(
+        widget.videoLoader.url,
+        formatHint: VideoFormat.hls,
+        videoPlayerOptions: VideoPlayerOptions(
+            allowBackgroundPlayback: false, mixWithOthers: false));
     playerController!.initialize().then((v) {
-      setState(() {});
+      setState(() {
+        widget.videoLoader.state = LoadState.success;
+      });
       widget.storyController!.play();
     });
 
