@@ -44,9 +44,15 @@ class StoryVideo extends StatefulWidget {
   final StoryController? storyController;
   final VideoLoader videoLoader;
   final VideoPlayerController? playerController;
+  final double height;
+  final double width;
 
   StoryVideo(this.videoLoader,
-      {this.storyController, this.playerController, Key? key})
+      {this.storyController,
+      this.playerController,
+      Key? key,
+      this.height = double.infinity,
+      this.width = double.infinity})
       : super(key: key ?? UniqueKey());
 
   static StoryVideo url(String url,
@@ -141,8 +147,8 @@ class StoryVideoState extends State<StoryVideo> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
-      height: double.infinity,
-      width: double.infinity,
+      height: widget.height,
+      width: widget.width,
       child: getContentView(),
     );
   }
