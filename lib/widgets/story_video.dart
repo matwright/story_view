@@ -153,6 +153,9 @@ class StoryVideoState extends State<StoryVideo> {
     ///only player controllers initiated within this object shall be auto disposed
     if (widget.playerController == null) {
       playerController?.dispose();
+    } else {
+      playerController?.pause();
+      playerController?.seekTo(Duration(seconds: 0));
     }
     _streamSubscription?.cancel();
     super.dispose();
